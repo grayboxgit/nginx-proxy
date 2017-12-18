@@ -30,6 +30,16 @@ if [ ! -f /etc/nginx/certs/dev.crt ]; then
 		-subj "/C=US/ST=Oregon/L=Portland/O=Docker Proxy/OU=None/CN=*.dev"
 fi
 
+if [ ! -f /etc/nginx/certs/test.crt ]; then
+	openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/certs/test.key -out /etc/nginx/certs/test.crt \
+		-subj "/C=US/ST=Oregon/L=Portland/O=Docker Proxy/OU=None/CN=*.test"
+fi
+
+if [ ! -f /etc/nginx/certs/local.crt ]; then
+	openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/certs/local.key -out /etc/nginx/certs/local.crt \
+		-subj "/C=US/ST=Oregon/L=Portland/O=Docker Proxy/OU=None/CN=*.local"
+fi
+
 # If the user has run the default command and the socket doesn't exist, fail
 if [ "$socketMissing" = 1 -a "$1" = forego -a "$2" = start -a "$3" = '-r' ]; then
 	exit 1
